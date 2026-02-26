@@ -55,30 +55,10 @@ endif()
 # *********** GEGELATI LIBRARY **************
 # *******************************************
 
-if(WIN32)
-	set(LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-    # find the gegelatilib-x.y.z folder in the lib directory.
-	file(GLOB GEGELATI_ROOT_DIR "${LIBS_DIR}/gegelatilib-[\\.|0-9]*")
-	set(ENV{GEGELATI_DIR} ${GEGELATI_ROOT_DIR})
-endif()
-find_package(GEGELATI)
+set(LIBS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-
-if (WIN32)
-	file(GLOB
-		GEGELATI_DLL
-		${GEGELATI_ROOT_DIR}/bin/*.dll
-	)
-
-	MESSAGE("Copy GEGELATI DLLs into ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-	if(NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio.*")
-		file(COPY ${GEGELATI_DLL} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-	else()
-		file(COPY ${GEGELATI_DLL} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
-		file(COPY ${GEGELATI_DLL} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
-	endif()
-endif()
-
+# Add library (use include because gegelati doesn't support subdirectory yet)
+include(${LIBS_DIR}/CMakeLists.txt)
 
 # *******************************************
 # ************** Executable  ****************
